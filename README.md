@@ -1,0 +1,1 @@
+#generator-prestashop-payment-module
