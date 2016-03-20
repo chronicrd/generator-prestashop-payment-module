@@ -36,6 +36,8 @@ class <%= className %> extends PaymentModule
         );
 
         $this->hooks = array(
+            'header',
+            'backofficeheader',
             'payment',
             'orderconfirmation'
         );
@@ -105,23 +107,10 @@ class <%= className %> extends PaymentModule
     }
 
     /**
-     * Load external scripts
-     *
-     * @return void
-     */
-    public function loadAssets()
-    {
-        $this->context->controller->addJS($this->_path . 'views/js/back.js');
-        $this->context->controller->addCSS($this->_path . 'views/css/back.css');
-    }
-
-    /**
      * Entry point to the module configuration page
      */
     public function getContent()
     {
-        $this->loadAssets();
-
         if (Tools::isSubmit('configSubmit')) {
             $this->postProcess();
         }
@@ -151,6 +140,28 @@ class <%= className %> extends PaymentModule
     public function getAllValues()
     {
         return $_POST + $_GET;
+    }
+
+
+    /**
+    * Add the CSS & JavaScript files in the module's backoffice.
+    */
+    public function hookBackOfficeHeader()
+    {
+        if (Tools::getValue('module_name') == $this->name) {
+            $this->context->controller->addJS($this->_path.'views/js/back.js');
+            $this->context->controller->addCSS($this->_path.'views/css/back.css');
+        }
+    }
+
+
+    /**
+     * Add the CSS & JavaScript files on the frontoffice.
+     */
+    public function hookHeader()
+    {
+        $this->context->controller->addJS($this->_path.'/views/js/front.js');
+        $this->context->controller->addCSS($this->_path.'/views/css/front.css');
     }
 
     public function hookDisplayPayment()
