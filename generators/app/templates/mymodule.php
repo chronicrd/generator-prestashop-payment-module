@@ -21,6 +21,7 @@ class <%= className %> extends PaymentModule
 
         $this->displayName = $this->l('<%= displayName %>');
         $this->description = $this->l('<%= description %>');
+        $this->confirmUninstall = $this->l('<%= msgUninstall %>')
         $this->ps_versions_compliancy = array(
             'min' => '1.6',
             'max' => _PS_VERSION_

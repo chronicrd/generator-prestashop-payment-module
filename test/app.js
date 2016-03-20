@@ -13,6 +13,7 @@ describe('generator-prestashop-payment-module:app', function () {
       displayName: 'Dummy Module',
       author: 'Marc Picaud',
       description: 'A very dummy module',
+      msgUninstall: 'Are you sure?',
       paymentProviderClass: 'DummyPaymentProviderClass'
     })
     .on('end', done);

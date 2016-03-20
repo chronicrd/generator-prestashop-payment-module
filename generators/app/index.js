@@ -47,6 +47,12 @@ module.exports = yeoman.generators.Base.extend({
       },
       {
         type: 'input',
+        name: 'msgUninstall',
+        message: 'Confirm Uninstall message',
+        default: 'This module will be removed from your store. Are you sure?'
+      },
+      {
+        type: 'input',
         name: 'paymentProviderClass',
         message: 'Payment provider class name (in camelCase)',
         default: 'PaymentProvider'
@@ -84,7 +90,8 @@ module.exports = yeoman.generators.Base.extend({
         className: this.props.className,
         displayName: this.props.displayName,
         author: this.props.author,
-        description: this.props.description
+        description: this.props.description,
+        msgUninstall: this.props.msgUninstall
       }
     );
 
