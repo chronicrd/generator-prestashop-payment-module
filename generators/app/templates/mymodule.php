@@ -13,6 +13,7 @@ class <%= className %> extends PaymentModule
         $this->tab = 'payments_gateway';
         $this->version = '1.0.0';
         $this->author = '<%= author %>';
+        $this->need_instance = 1;
         $this->currencies = true;
         $this->currencies_mode = 'checkbox';
         $this->bootstrap = true;
