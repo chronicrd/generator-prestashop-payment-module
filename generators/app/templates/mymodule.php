@@ -37,9 +37,9 @@ class <%= className %> extends PaymentModule
 
         $this->hooks = array(
             'header',
-            'backofficeheader',
+            'backOfficeHeader',
             'payment',
-            'orderconfirmation'
+            'paymentReturn'
         );
     }
 
