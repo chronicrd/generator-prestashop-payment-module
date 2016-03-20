@@ -164,7 +164,7 @@ class <%= className %> extends PaymentModule
         $this->context->controller->addCSS($this->_path.'/views/css/front.css');
     }
 
-    public function hookDisplayPayment()
+    public function hookPayment()
     {
         $template = 'views/templates/hooks/payment.tpl';
 
@@ -177,7 +177,7 @@ class <%= className %> extends PaymentModule
         return $this->display(__FILE__, $template);
     }
 
-    public function hookDisplayOrderConfirmation($params)
+    public function hookPaymentReturn($params)
     {
         if ($this->active == false) {
             return;
