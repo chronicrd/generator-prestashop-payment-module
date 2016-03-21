@@ -49,11 +49,11 @@ This project generates a well architectured payment module which follows the Pre
 ```
 
 ## TODO
-[] Better tests
-[] Hooks checkboxes the prompt - wip
-[] Publish package on npm
-[] Instructions for people who aren't familiar with PrestaShop
-[] Images ?
-[] Automatically generate config helpers ?
-[] PHPDoc Compliancy
-[] PSR-2 Compliancy
+[ ] Better tests
+[ ] Hooks checkboxes the prompt - wip
+[ ] Publish package on npm
+[ ] Instructions for people who aren't familiar with PrestaShop
+[ ] Images ?
+[ ] Automatically generate config helpers ?
+[ ] PHPDoc Compliancy
+[ ] PSR-2 Compliancy
