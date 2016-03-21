@@ -21,7 +21,7 @@ class <%= className %> extends PaymentModule
 
         $this->displayName = $this->l('<%= displayName %>');
         $this->description = $this->l('<%= description %>');
-        $this->confirmUninstall = $this->l('<%= msgUninstall %>')
+        $this->confirmUninstall = $this->l('<%= msgUninstall %>');
         $this->ps_versions_compliancy = array(
             'min' => '1.6',
             'max' => _PS_VERSION_
@@ -30,10 +30,6 @@ class <%= className %> extends PaymentModule
 
         // Only if you want to publish your module on the Addons Marketplace
         // $this->module_key = '';
-
-        // List of configuration values in DB
-        $this->config_values = array(
-        );
 
         $this->hooks = array(
             'header',
@@ -52,14 +48,12 @@ class <%= className %> extends PaymentModule
     {
         // Do whatever is needed when installing the module
         // eg. set default config values, check for PHP extensions etc.
+        Configuration::updateValue('<%= technicalNameUpperCase %>_LIVE_MODE', false);
 
         if (parent::install() && $this->registerHook($this->hooks)) {
             return true;
         } else {
-            $this->_errors[] = $this->l(
-                'There was an error during the installation.
-                Please contact the developer of the module'
-            );
+            $this->_errors[] = $this->l('There was an error during the installation. Please contact the developer of the module');
             return false;
         }
     }
@@ -71,39 +65,12 @@ class <%= className %> extends PaymentModule
      */
     public function uninstall()
     {
-        // Do whatever is needed when uninstalling the module
-        // eg. uninstall tabs or DB records
-
-        $this->deleteConfigurationByNames($this->config_values);
-
-        if (parent::uninstall() && $this->unregisterHook($this->hooks)) {
-            return (true);
-        } else {
-            $this->_errors[] = $this->l(
-                'There was an error during the uninstall process.
-                Please contact the developer of the module'
-            );
-            return false;
-        }
-    }
-
-    /**
-     * Deletes an array of configuration values
-     *
-     * @param array $names the configuration keys
-     *
-     * @return bool
-     */
-    public function deleteConfigurationByNames(array $names)
-    {
-        $flag = true;
-        foreach ($names as $name) {
-            if (Configuration::deleteByName($name)) {
-                $flag = false;
-            }
+        $form_values = $this->getConfigFormValues();
+        foreach (array_keys($form_values) as $key) {
+            Configuration::deleteByName($key);
         }
 
-        return ($flag);
+        return parent::uninstall();
     }
 
     /**
@@ -111,18 +78,93 @@ class <%= className %> extends PaymentModule
      */
     public function getContent()
     {
-        if (Tools::isSubmit('configSubmit')) {
+        if (Tools::isSubmit('submit_<%= technicalName %>')) {
             $this->postProcess();
         }
 
-        $this->context->smarty->assign(
-            array(
-                'module_dir'     => $this->_path,
-                'module_version' => $this->version,
-            )
+        $this->context->smarty->assign(array('module_dir' => $this->_path));
+
+        return $this->renderForm();
+    }
+
+
+    /**
+     * Create the form that will be displayed in the configuration of your module.
+     */
+    protected function renderForm()
+    {
+        $helper = new HelperForm();
+
+        $helper->show_toolbar = false;
+        $helper->table = $this->table;
+        $helper->module = $this;
+        $helper->default_form_language = $this->context->language->id;
+        $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG', 0);
+
+        $helper->identifier = $this->identifier;
+        $helper->submit_action = 'submit_<%= technicalName %>';
+        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
+            .'&configure='.$this->name.'&tab_module='.$this->tab.'&module_name='.$this->name;
+        $helper->token = Tools::getAdminTokenLite('AdminModules');
+
+        $helper->tpl_vars = array(
+            'fields_value' => $this->getConfigFormValues(), /* Add values for your inputs */
+            'languages' => $this->context->controller->getLanguages(),
+            'id_language' => $this->context->language->id,
         );
 
-        //return $this->display('__FILE__', 'getcontent.tpl');
+        return $helper->generateForm(array($this->getConfigForm()));
+    }
+
+
+    /**
+     * Create the structure of your form.
+     */
+    protected function getConfigForm()
+    {
+        return array(
+            'form' => array(
+                'legend' => array(
+                'title' => $this->l('Settings'),
+                'icon' => 'icon-cogs',
+                ),
+                'input' => array(
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('Live mode'),
+                        'name' => '<%= technicalNameUpperCase %>_LIVE_MODE',
+                        'is_bool' => true,
+                        'desc' => $this->l('Choose between live or test mode'),
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => 1,
+                                'label' => $this->l('Live')
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => 0,
+                                'label' => $this->l('Test')
+                            )
+                        ),
+                    )
+                ),
+                'submit' => array(
+                    'title' => $this->l('Save'),
+                ),
+            ),
+        );
+    }
+
+
+    /**
+     * Set values for the inputs.
+     */
+    protected function getConfigFormValues()
+    {
+        return array(
+            '<%= technicalNameUpperCase %>_LIVE_MODE' => Configuration::get('<%= technicalNameUpperCase %>_LIVE_MODE', true)
+        );
     }
 
     /**
@@ -130,18 +172,12 @@ class <%= className %> extends PaymentModule
      */
     public function postProcess()
     {
-        $data = $this->getAllValues();
-        // Do whatever is needed to configure the module
-    }
+        $form_values = $this->getConfigFormValues();
 
-    /**
-     *  Put POST and GET variables into a single array
-     */
-    public function getAllValues()
-    {
-        return $_POST + $_GET;
+        foreach (array_keys($form_values) as $key) {
+            Configuration::updateValue($key, Tools::getValue($key));
+        }
     }
-
 
     /**
     * Add the CSS & JavaScript files in the module's backoffice.

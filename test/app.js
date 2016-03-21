@@ -6,12 +6,11 @@ var helpers = require('yeoman-generator').test;
 describe('generator-prestashop-payment-module:app', function () {
   before(function (done) {
     helpers.run(path.join(__dirname, '../generators/app'))
-    .withOptions({someOption: true})
     .withPrompts({
       technicalName: 'dummymodule',
-      className: 'DummyModule',
       displayName: 'Dummy Module',
       author: 'Marc Picaud',
+      hooks: 'payment, paymentreturn, header, backOfficeHeader',
       description: 'A very dummy module',
       msgUninstall: 'Are you sure?',
       paymentProviderClass: 'DummyPaymentProviderClass'
@@ -25,6 +24,12 @@ describe('generator-prestashop-payment-module:app', function () {
     ]);
   });
 
+  it('generates the upgrade file', function () {
+    assert.file([
+      'dummymodule/upgrade/upgrade-1.1.0.php'
+    ]);
+  });
+
   it('generates the payment provider class file', function () {
     assert.file([
       'dummymodule/classes/DummyPaymentProviderClass.php'
@@ -35,6 +40,12 @@ describe('generator-prestashop-payment-module:app', function () {
     assert.file([
       'dummymodule/controllers/front/redirect.php',
       'dummymodule/views/templates/front/redirect.tpl'
+    ]);
+  });
+
+  it('generates the front controller to handle PSP response', function () {
+    assert.file([
+      'dummymodule/controllers/front/notification.php'
     ]);
   });
 

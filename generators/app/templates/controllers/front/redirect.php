@@ -1,5 +1,8 @@
 <?php
-
+/*
+ * This front controller builds the payment request and then redirects the
+ * customer to the PSP website so that he can pay safely
+ */
 class <%= className %>RedirectModuleFrontController extends ModuleFrontController
 {
     public $ssl = true;
@@ -14,12 +17,13 @@ class <%= className %>RedirectModuleFrontController extends ModuleFrontControlle
     public function postProcess()
     {
         require(dirname(__FILE__) . '/../../classes/<%= paymentProviderClass %>.php');
-        // Do whatever you have to do before redirecting the customer
-        // on the website of your payment processor
 
+        /**
+         * TODO : Here you have to build all the parameters required by the PSP
+         */
         $this->context->smarty->assign(
             array(
-                'url' => <%= paymentProviderClass %>::getPaymentUrl(),
+                'paymenturl' => <%= paymentProviderClass %>::getPaymentUrl(),
             )
         );
         return $this->setTemplate('redirect.tpl');
