@@ -200,5 +200,69 @@ module.exports = yeoman.generators.Base.extend({
         technicalName: this.props.technicalName
       }
     );
+
+    this.fs.copy(
+      this.templatePath('index.php'),
+      modulePath + '/index.php'
+    );
+
+    this.fs.copy(
+      this.templatePath('index.php'),
+      modulePath + '/classes/index.php'
+    );
+
+    this.fs.copy(
+      this.templatePath('index.php'),
+      modulePath + '/controllers/index.php'
+    );
+
+    this.fs.copy(
+      this.templatePath('index.php'),
+      modulePath + '/controllers/front/index.php'
+    );
+
+    this.fs.copy(
+      this.templatePath('index.php'),
+      modulePath + '/translations/index.php'
+    );
+
+    this.fs.copy(
+      this.templatePath('index.php'),
+      modulePath + '/upgrade/index.php'
+    );
+    this.fs.copy(
+      this.templatePath('index.php'),
+      modulePath + '/views/index.php'
+    );
+
+    this.fs.copy(
+      this.templatePath('index.php'),
+      modulePath + '/views/css/index.php'
+    );
+
+    this.fs.copy(
+      this.templatePath('index.php'),
+      modulePath + '/views/js/index.php'
+    );
+
+    this.fs.copy(
+      this.templatePath('index.php'),
+      modulePath + '/views/templates/index.php'
+    );
+
+    this.fs.copy(
+      this.templatePath('index.php'),
+      modulePath + '/views/templates/admin/index.php'
+    );
+
+    this.fs.copy(
+      this.templatePath('index.php'),
+      modulePath + '/views/templates/front/index.php'
+    );
+
+    this.fs.copy(
+      this.templatePath('index.php'),
+      modulePath + '/views/templates/hooks/index.php'
+    );
   }
 });

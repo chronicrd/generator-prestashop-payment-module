@@ -30,6 +30,24 @@ describe('generator-prestashop-payment-module:app', function () {
     ]);
   });
 
+  it('places an index.php file in every directory', function () {
+    assert.file([
+      'dummymodule/index.php',
+      'dummymodule/classes/index.php',
+      'dummymodule/controllers/index.php',
+      'dummymodule/controllers/front/index.php',
+      'dummymodule/translations/index.php',
+      'dummymodule/upgrade/index.php',
+      'dummymodule/views/index.php',
+      'dummymodule/views/js/index.php',
+      'dummymodule/views/css/index.php',
+      'dummymodule/views/templates/index.php',
+      'dummymodule/views/templates/admin/index.php',
+      'dummymodule/views/templates/front/index.php',
+      'dummymodule/views/templates/hooks/index.php'
+    ]);
+  });
+
   it('generates the payment provider class file', function () {
     assert.file([
       'dummymodule/classes/DummyPaymentProviderClass.php'
