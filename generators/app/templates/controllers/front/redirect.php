@@ -1,4 +1,14 @@
 <?php
+/**
+ * <%= filename %>
+ *
+ * Main file of the module
+ *
+ * @author  <%= author %> <<%= authorEmail %>>
+ * @version 1.0.0
+ * @see     PaymentModuleCore
+ */
+
 /*
  * This front controller builds the payment request and then redirects the
  * customer to the PSP website so that he can pay safely
@@ -7,6 +17,12 @@ class <%= className %>RedirectModuleFrontController extends ModuleFrontControlle
 {
     public $ssl = true;
 
+    /**
+     * Initialize common front page content
+     *
+     * @see    FrontControllerCore::initContent()
+     * @return void
+     */
     public function initContent()
     {
         $this->display_column_left = false;
@@ -14,6 +30,9 @@ class <%= className %>RedirectModuleFrontController extends ModuleFrontControlle
         parent::initContent();
     }
 
+    /**
+     *
+     */
     public function postProcess()
     {
         require(dirname(__FILE__) . '/../../classes/<%= paymentProviderClass %>.php');

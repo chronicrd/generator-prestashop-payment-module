@@ -10,8 +10,9 @@ describe('generator-prestashop-payment-module:app', function () {
       technicalName: 'dummymodule',
       displayName: 'Dummy Module',
       author: 'Marc Picaud',
-      hooks: 'payment, paymentreturn, header, backOfficeHeader',
+      authorEmail: 'marc.picaud@prestashop.com',
       description: 'A very dummy module',
+      // hooks: 'payment, paymentreturn, header, backOfficeHeader',
       msgUninstall: 'Are you sure?',
       paymentProviderClass: 'DummyPaymentProviderClass'
     })

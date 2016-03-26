@@ -1,7 +1,19 @@
 <?php
+/**
+ * <%= filename %>
+ *
+ * Main file of the module
+ *
+ * @author  <%= author %> <<%= authorEmail %>>
+ * @version 1.0.0
+ * @see     PaymentModuleCore
+ */
 if (!defined('_PS_VERSION_')) {
     exit;
 }
+/**
+ * Main class of the module
+ */
 class <%= className %> extends PaymentModule
 {
     /**
@@ -40,14 +52,17 @@ class <%= className %> extends PaymentModule
     }
 
     /**
-     * Install the module
+     * Install the module on the store
      *
+     * @see    Module::install()
+     * @todo   bootstrap the configuration requirements of <%= paymentProviderClass %>
+     * @throws PrestaShopException
      * @return bool
      */
     public function install()
     {
-        // Do whatever is needed when installing the module
-        // eg. set default config values, check for PHP extensions etc.
+        // Don't forget to check for PHP extensions like curl here
+
         Configuration::updateValue('<%= technicalNameUpperCase %>_LIVE_MODE', false);
 
         if (parent::install() && $this->registerHook($this->hooks)) {
@@ -61,6 +76,9 @@ class <%= className %> extends PaymentModule
     /**
      * Uninstall the module
      *
+     * @see    Module::uninstall()
+     * @todo   remove the configuration requirements of <%= paymentProviderClass %>
+     * @throws PrestaShopException
      * @return bool
      */
     public function uninstall()
@@ -75,6 +93,9 @@ class <%= className %> extends PaymentModule
 
     /**
      * Entry point to the module configuration page
+     *
+     * @see Module::getContent()
+     * @return string
      */
     public function getContent()
     {
@@ -89,7 +110,9 @@ class <%= className %> extends PaymentModule
 
 
     /**
-     * Create the form that will be displayed in the configuration of your module.
+     * Generate the configuration form HTML markup
+     *
+     * @return string
      */
     protected function renderForm()
     {
@@ -118,7 +141,11 @@ class <%= className %> extends PaymentModule
 
 
     /**
-     * Create the structure of your form.
+     * Define the input of the configuration form
+     *
+     * @see $this->renderForm
+     *
+     * @return array
      */
     protected function getConfigForm()
     {
@@ -158,7 +185,11 @@ class <%= className %> extends PaymentModule
 
 
     /**
-     * Set values for the inputs.
+     * Retrieve the current configuration values.
+     *
+     * @see $this->renderForm
+     *
+     * @return array
      */
     protected function getConfigFormValues()
     {
@@ -168,7 +199,9 @@ class <%= className %> extends PaymentModule
     }
 
     /**
-     * Process inputs from the module backoffice
+     * Logic to apply when the configuration form is posted
+     *
+     * @return void
      */
     public function postProcess()
     {
@@ -181,6 +214,8 @@ class <%= className %> extends PaymentModule
 
     /**
     * Add the CSS & JavaScript files in the module's backoffice.
+    *
+    * @return void
     */
     public function hookBackOfficeHeader()
     {
@@ -193,6 +228,8 @@ class <%= className %> extends PaymentModule
 
     /**
      * Add the CSS & JavaScript files on the frontoffice.
+     *
+     * @return void
      */
     public function hookHeader()
     {
@@ -200,19 +237,29 @@ class <%= className %> extends PaymentModule
         $this->context->controller->addCSS($this->_path.'/views/css/front.css');
     }
 
+    /**
+     * Logic to execute when the hook 'displayPayment' is fired
+     *
+     * @return string
+     */
     public function hookPayment()
     {
         $template = 'views/templates/hooks/payment.tpl';
 
         $this->context->smarty->assign(
             array(
-                'payment_label' => 'Pay with <%= technicalName %>',
+                'payment_label' => $this->l('Pay with <%= technicalName %>'),
             )
         );
 
         return $this->display(__FILE__, $template);
     }
 
+    /**
+     * Logic to execute when the hook 'displayPaymentReturn' is fired
+     *
+     * @return string
+     */
     public function hookPaymentReturn($params)
     {
         if ($this->active == false) {

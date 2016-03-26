@@ -1,16 +1,25 @@
 <?php
 /**
+ * <%= filename %>
+ *
+ * Main file of the module
+ *
+ * @author  <%= author %> <<%= authorEmail %>>
+ * @version 1.0.0
+ * @see     PaymentModuleCore
+ */
+
+/**
  * This class receives a POST request from the PSP and creates the PrestaShop
  * order according to the request parameters
  **/
 class <%= className %>NotificationModuleFrontController extends ModuleFrontController
 {
     /*
-     * TODO : You probably have to register the following notification URL on
-     * the PSP side :
-     * http://yourstore.com/index.php?fc=module&module=<%= technicalName %>&controller=notification
+     * Handles the Instant Payment Notification
      *
-     * Handles the POST
+     * @todo You probably have to register the following notification URL on
+     * the PSP side : http://yourstore.com/index.php?fc=module&module=<%= technicalName %>&controller=notification
      * @return bool
      */
     public function postProcess()
@@ -20,10 +29,7 @@ class <%= className %>NotificationModuleFrontController extends ModuleFrontContr
             die;
         }
 
-        /**
-         * TODO : This is an example. You may need to fetch these values
-         * otherwise
-         */
+        //This is an example. You may need to fetch these values otherwise
         $cart_id = Tools::getValue('cart_id');
         $customer_id = Tools::getValue('customer_id');
         $amount = Tools::getValue('Amount');
@@ -62,23 +68,27 @@ class <%= className %>NotificationModuleFrontController extends ModuleFrontContr
         );
     }
 
+    /**
+     * Process the IPN data to find out if the transaction has been
+     * approved or not
+     *
+     * @todo   implement the actual check
+     * @return bool
+     */
     protected function isValidOrder()
     {
-        /**
-         * TODO : Here you need to parse the data sent from the PSP to find out
-         * if the transaction has been approved or not
-         */
-
         return true;
     }
 
+    /**
+     * Build the right error message according to the data in the IPN. This
+     * message will be associated with the order
+     *
+     * @todo implement the function
+     * @return string
+     */
     protected function getErrorMessage()
     {
-        /**
-         * TODO : Here your need to build the right error message according to
-         * the PSP response parameters
-         */
-
         return $this->module->l('An error occurred while processing payment');
     }
 }

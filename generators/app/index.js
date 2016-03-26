@@ -53,6 +53,15 @@ module.exports = yeoman.generators.Base.extend({
       },
       {
         type: 'input',
+        name: 'authorEmail',
+        message: 'Author Email',
+        validate: function (str) {
+          return validator.isEmail(str);
+        },
+        default: 'contact@prestashop.com'
+      },
+      {
+        type: 'input',
         name: 'description',
         message: 'description',
         validate: function (str) {
@@ -116,17 +125,20 @@ module.exports = yeoman.generators.Base.extend({
     mkdirp(modulePath + '/views/templates/front');
     mkdirp(modulePath + '/views/templates/hooks');
 
-    var tmp = this.props.technicalName.toUpperCase();
+    var nameUpper = this.props.technicalName.toUpperCase();
+    var moduleFileName = this.props.technicalName + '.php';
     // Generates files
     this.fs.copyTpl(
       this.templatePath('mymodule.php'),
-      modulePath + '/' + this.props.technicalName + '.php', {
+      modulePath + '/' + moduleFileName, {
+        filename: moduleFileName,
         technicalName: this.props.technicalName,
-        technicalNameUpperCase: tmp,
+        technicalNameUpperCase: nameUpper,
         paymentProviderClass: this.props.paymentProviderClass,
         className: this.props.className,
         displayName: this.props.displayName,
         author: this.props.author,
+        authorEmail: this.props.authorEmail,
         description: this.props.description,
         msgUninstall: this.props.msgUninstall
       }
@@ -142,13 +154,20 @@ module.exports = yeoman.generators.Base.extend({
     this.fs.copyTpl(
       this.templatePath('classes/PaymentProviderApi.php'),
       modulePath + '/classes/' + this.props.paymentProviderClass + '.php', {
-        paymentProviderClass: this.props.paymentProviderClass
+        filename: this.props.paymentProviderClass + '.php',
+        author: this.props.author,
+        authorEmail: this.props.authorEmail,
+        paymentProviderClass: this.props.paymentProviderClass,
+        technicalNameUpperCase: nameUpper
       }
     );
 
     this.fs.copyTpl(
       this.templatePath('controllers/front/redirect.php'),
       modulePath + '/controllers/front/redirect.php', {
+        filename: 'redirect.php',
+        author: this.props.author,
+        authorEmail: this.props.authorEmail,
         paymentProviderClass: this.props.paymentProviderClass,
         className: this.props.className
       }
@@ -157,7 +176,10 @@ module.exports = yeoman.generators.Base.extend({
     this.fs.copyTpl(
       this.templatePath('controllers/front/notification.php'),
       modulePath + '/controllers/front/notification.php', {
+        filename: 'notification.php',
         className: this.props.className,
+        author: this.props.author,
+        authorEmail: this.props.authorEmail,
         technicalName: this.props.technicalName
       }
     );
