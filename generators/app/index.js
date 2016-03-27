@@ -10,7 +10,7 @@ function pascalCasify(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = yeoman.Base.extend({
   prompting: function () {
     var done = this.async();
 
