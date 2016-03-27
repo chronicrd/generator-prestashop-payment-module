@@ -7,11 +7,18 @@ var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
 var nsp = require('gulp-nsp');
 var plumber = require('gulp-plumber');
+var coveralls = require('gulp-coveralls');
 
 gulp.task('static', function () {
   return gulp.src('**/*.js')
     .pipe(excludeGitignore())
     .pipe(eslint())
+    .pipe(eslint.results(function (results) {
+      // Called once for all ESLint results.
+      console.log('eslint total tesults: ' + results.length);
+      console.log('eslint total warnings: ' + results.warningCount);
+      console.log('eslint total errors: ' + results.errorCount);
+    }))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
@@ -48,5 +55,14 @@ gulp.task('watch', function () {
   gulp.watch(['generators/**/*.js', 'test/**'], ['test']);
 });
 
+gulp.task('coveralls', ['test'], function () {
+  if (!process.env.CI) {
+    return;
+  }
+
+  return gulp.src(path.join(__dirname, 'coverage/lcov.info'))
+  .pipe(coveralls());
+});
+
 gulp.task('prepublish', ['nsp']);
-gulp.task('default', ['static', 'test']);
+gulp.task('default', ['static', 'test', 'coveralls']);
