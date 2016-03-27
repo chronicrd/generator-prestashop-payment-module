@@ -1,6 +1,6 @@
 {
   "name": "generator-prestashop-payment-module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Generate a PrestaShop module to handle payments",
   "homepage": "https://github.com/marcpicaud/generator-prestashop-payment-module",
   "author": {
