@@ -1,5 +1,5 @@
 #generator-prestashop-payment-module
-[![Build Status](https://travis-ci.org/marcpicaud/generator-prestashop-payment-module.svg?branch=master)](https://travis-ci.org/marcpicaud/generator-prestashop-payment-module)[![npm version](https://badge.fury.io/js/generator-prestashop-payment-module.svg)](https://badge.fury.io/js/generator-prestashop-payment-module)
+[![Build Status](https://travis-ci.org/marcpicaud/generator-prestashop-payment-module.svg?branch=master)](https://travis-ci.org/marcpicaud/generator-prestashop-payment-module)[![npm version](https://badge.fury.io/js/generator-prestashop-payment-module.svg)](https://badge.fury.io/js/generator-prestashop-payment-module)[![Coverage Status](https://coveralls.io/repos/github/marcpicaud/generator-prestashop-payment-module/badge.svg?branch=master)](https://coveralls.io/github/marcpicaud/generator-prestashop-payment-module?branch=master)
 > Yeoman generator for PrestaShop - lets you quickly set up a payment module
 
 Payment modules for [PrestaShop](https://www.prestashop.com/) almost always share the same architecture and it's painful to write them from scratch for each new payment provider.
