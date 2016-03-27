@@ -1,6 +1,6 @@
 {
   "name": "generator-prestashop-payment-module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Generate a PrestaShop module to handle payments",
   "homepage": "https://github.com/marcpicaud/generator-prestashop-payment-module",
   "author": {
@@ -21,13 +21,14 @@
     "lodash": "^4.6.1",
     "mkdirp": "^0.5.1",
     "validator": "^5.1.0",
-    "yeoman-generator": "^0.21.1",
+    "yeoman-generator": "^0.22.5",
     "yosay": "^1.0.2"
   },
   "devDependencies": {
     "eslint": "^2.1.0",
-    "eslint-config-xo-space": "^0.10.0",
-    "gulp": "^3.9.0",
+    "eslint-config-xo-space": "^0.11.0",
+    "gulp": "^3.9.1",
+    "gulp-coveralls": "^0.1.4",
     "gulp-eslint": "^2.0.0",
     "gulp-exclude-gitignore": "^1.0.0",
     "gulp-istanbul": "^0.10.3",
